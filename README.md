@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Breezy Infrastructure
 
 Ce repository contient la configuration d'infrastructure pour le projet Breezy, incluant les configurations Docker, Nginx et les scripts de déploiement.
@@ -73,3 +74,6 @@ docker-compose -f docker-compose.prod.yml up
 3. Commit les changements (`git commit -m 'Add some AmazingFeature'`)
 4. Push sur la branche (`git push origin feature/AmazingFeature`)
 5. Ouvrir une Pull Request
+=======
+# Breezy-Infra
+>>>>>>> 5ae33f6ebdd186340d4cea86feb3e03a25c09de8
