@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ../breezy-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    volumes:
+      - ../breezy-frontend:/app
+      - /app/node_modules
+    networks:
+      - breezy-network
+    command: pnpm dev
+
+  backend:
+    build:
+      context: ../breezy-backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/breezy
+      - CORS_ORIGIN=http://localhost:3000
+      - NODE_ENV=development
+    depends_on:
+      - mongodb
+    networks:
+      - breezy-network
+    volumes:
+      - ../breezy-backend:/app
+      - /app/node_modules
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - breezy-network
+
+networks:
+  breezy-network:
+    driver: bridge
+
+volumes:
+  mongodb_data: 
