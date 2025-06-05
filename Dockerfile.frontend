@@ -1,0 +1,17 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+COPY breezy-frontend/package*.json ./
+RUN pnpm install
+
+COPY breezy-frontend/ ./
+
+RUN pnpm build
+
+EXPOSE 3000
+
+CMD ["pnpm", "start"] 
