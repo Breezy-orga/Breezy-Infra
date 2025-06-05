@@ -1,20 +1,15 @@
 # Breezy Infrastructure
 
-Ce repository contient la configuration d'infrastructure pour le projet Breezy, incluant les configurations Docker, Nginx et les scripts de déploiement.
+Ce repository contient la configuration d'infrastructure pour le projet Breezy, incluant les configurations Docker et les scripts de déploiement.
 
 ## Structure
 
 ```
 breezy-infra/
-  ├── docker-compose.yml        # Configuration principale
-  ├── docker-compose.dev.yml    # Configuration de développement
-  ├── docker-compose.prod.yml   # Configuration de production
-  ├── nginx/                    # Configurations Nginx
-  │   └── nginx.conf
+  ├── docker-compose.yml        # Configuration Docker
   ├── scripts/                  # Scripts utilitaires
-  │   ├── setup.sh
-  │   └── deploy.sh
-  └── README.md                 # Documentation
+  │   └── setup.sh             # Script de configuration initiale
+  └── README.md                # Documentation
 ```
 
 ## Prérequis
@@ -28,31 +23,17 @@ breezy-infra/
 
 1. Cloner le repository :
 ```bash
-git clone https://github.com/your-username/breezy-infra.git
+git clone https://github.com/Breezy-orga/Breezy-Infra.git
 cd breezy-infra
 ```
 
-2. Configurer les variables d'environnement :
+2. Lancer l'environnement :
 ```bash
-cp .env.example .env
-# Éditer .env avec vos configurations
-```
+# Soit utiliser le script de setup
+./scripts/setup.sh
 
-3. Lancer l'environnement de développement :
-```bash
-docker-compose -f docker-compose.dev.yml up --build
-```
-
-## Environnements
-
-### Développement
-```bash
-docker-compose -f docker-compose.dev.yml up
-```
-
-### Production
-```bash
-docker-compose -f docker-compose.prod.yml up
+# Soit directement avec docker-compose
+docker-compose up --build
 ```
 
 ## Services
@@ -63,8 +44,7 @@ docker-compose -f docker-compose.prod.yml up
 
 ## Scripts
 
-- `scripts/setup.sh` : Configuration initiale
-- `scripts/deploy.sh` : Déploiement en production
+- `scripts/setup.sh` : Configuration initiale et démarrage de l'environnement
 
 ## Contribution
 
