@@ -1,17 +1,24 @@
-FROM node:20-alpine
-
+# --- Build stage ---
+FROM node:20-alpine AS builder
 WORKDIR /app
-
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
-
 COPY breezy-frontend/package*.json ./
 RUN pnpm install
-
+COPY breezy-frontend/.env.local ./
 COPY breezy-frontend/ ./
-
 RUN pnpm build
 
+# --- Production stage ---
+FROM node:20-alpine AS prod
+WORKDIR /app
+RUN corepack enable && corepack prepare pnpm@latest --activate
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/tailwind.config.js ./
+COPY --from=builder /app/postcss.config.js ./
+ENV NODE_ENV=production
 EXPOSE 3000
-
-CMD ["pnpm", "start"] 
+CMD ["pnpm", "start"]
