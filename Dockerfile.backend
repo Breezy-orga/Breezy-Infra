@@ -1,9 +1,27 @@
 # --- Build stage ---
 FROM node:20-alpine
-WORKDIR /app
+
+# Configurer pnpm pour qu'il fonctionne correctement dans Docker
 RUN corepack enable && corepack prepare pnpm@latest --activate
-COPY breezy-backend/package*.json ./
-RUN pnpm install
+RUN pnpm config set store-dir /root/.pnpm-store
+
+# Créer le répertoire de l'application
+WORKDIR /app
+
+# Créer un répertoire pour l'app backend
+WORKDIR /app/backend
+
+# Copier uniquement les fichiers de configuration des dépendances
+COPY breezy-backend/package.json breezy-backend/pnpm-lock.yaml ./
+
+# Installer les dépendances
+RUN pnpm install --frozen-lockfile --shamefully-hoist
+
+# Copier le reste du code source
 COPY breezy-backend/ ./
+
+# Exposer le port de l'API
 EXPOSE 5000
-CMD ["pnpm", "dev"]
+
+# Commande par défaut pour exécuter l'application
+CMD ["pnpm", "start"]
