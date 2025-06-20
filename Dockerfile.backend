@@ -20,6 +20,12 @@ RUN pnpm install --frozen-lockfile --shamefully-hoist
 # Copier le reste du code source
 COPY breezy-backend/ ./
 
+# Ajouter TypeScript comme dépendance de développement
+RUN pnpm add -D typescript
+
+# Compiler le code TypeScript
+RUN pnpm build
+
 # Exposer le port de l'API
 EXPOSE 5000
 
