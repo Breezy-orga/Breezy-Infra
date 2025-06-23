@@ -3,8 +3,8 @@ version: "3.9"
 services:
   frontend:
     build:
-      context: ..
-      dockerfile: breezy-infra/Dockerfile.frontend
+      context: ../breezy-frontend
+      dockerfile: ../breezy-infra/Dockerfile.frontend
     ports:
       - "3000:3000"
     environment:
@@ -18,8 +18,8 @@ services:
 
   backend:
     build:
-      context: ..
-      dockerfile: breezy-infra/Dockerfile.backend
+      context: ../breezy-backend
+      dockerfile: ../breezy-infra/Dockerfile.backend
     ports:
       - "5000:5000"
     environment:

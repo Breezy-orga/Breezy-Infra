@@ -8,20 +8,20 @@ RUN pnpm config set store-dir /root/.pnpm-store
 # Créer le répertoire de l'application
 WORKDIR /app
 
-# Créer un répertoire pour l'app backend
-WORKDIR /app/backend
-
 # Copier uniquement les fichiers de configuration des dépendances
-COPY breezy-backend/package.json breezy-backend/pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml ./
 
 # Installer les dépendances
 RUN pnpm install --frozen-lockfile --shamefully-hoist
 
 # Copier le reste du code source
-COPY breezy-backend/ ./
+COPY . .
 
 # Ajouter TypeScript comme dépendance de développement
 RUN pnpm add -D typescript
+
+# S'assurer que le dossier dist est vide avant de compiler
+RUN rm -rf dist || true && mkdir -p dist
 
 # Compiler le code TypeScript
 RUN pnpm build

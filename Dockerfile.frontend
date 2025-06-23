@@ -3,10 +3,10 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
-COPY breezy-frontend/package*.json ./
+COPY package*.json ./
 RUN pnpm install
-COPY breezy-frontend/.env.local ./
-COPY breezy-frontend/ ./
+COPY .env.local ./
+COPY . ./
 RUN pnpm build
 
 # --- Production stage ---
